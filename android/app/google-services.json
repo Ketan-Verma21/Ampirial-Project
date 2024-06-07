@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "907477777625",
+    "project_id": "ampirialproject",
+    "storage_bucket": "ampirialproject.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:907477777625:android:0d73f2f239bfa9381c92c8",
+        "android_client_info": {
+          "package_name": "com.example.recruit_portal"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDwSGxHcwywO6oWRTgGN7WaDGlz_UigIlU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
