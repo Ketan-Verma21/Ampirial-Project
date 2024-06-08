@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:recruit_portal/views/auth/components/custom_button.dart';
+import 'package:recruit_portal/views/auth/components/custom_text_feild.dart';
 
 import '../../../models/offer/offer.dart';
 
@@ -17,8 +19,9 @@ class DisplayOffer extends StatefulWidget {
 
 class _DisplayOfferState extends State<DisplayOffer> {
   final _firestore = FirebaseFirestore.instance;
-
+  TextEditingController nameController =  TextEditingController();
   Future<void> setter(String status) async {
+
     await _firestore.collection("offers").doc(widget.docId).update({
       'status': status,
       'is_new': false,
@@ -28,7 +31,7 @@ class _DisplayOfferState extends State<DisplayOffer> {
 
   @override
   Widget build(BuildContext context) {
-    print(widget.is_recruiter);
+    // print(widget.is_recruiter);
     final color = Theme.of(context).colorScheme;
     return Scaffold(
       appBar: AppBar(
@@ -65,11 +68,44 @@ class _DisplayOfferState extends State<DisplayOffer> {
             ),
              SizedBox(height: 30),
 
-             if(!widget.is_recruiter) Row(
+             if(!widget.is_recruiter && widget.offer.is_new) Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   GestureDetector(
-                    onTap: ()=>setter("accepted"),
+                    onTap: (){
+                      showModalBottomSheet(
+                          barrierColor: Colors.transparent,
+                          backgroundColor: Colors.transparent,
+
+                          context: context,
+                          builder: (_){
+                            return Container(
+                              height: MediaQuery.of(context).size.height*0.4,
+                              padding: const EdgeInsets.symmetric(horizontal: 20),
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.only(topLeft: Radius.circular(30),topRight: Radius.circular(30)),
+                                color: color.tertiary,
+                              ),
+                              child:  Column(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text("ENTER YOU NAME HERE (E-VERIFICATION)"),
+                                  SizedBox(
+                                    height: 10,
+                                  ),
+                                  CustomTextField(text: "Enter you Name", pass: false, controller:nameController ,),
+                                  SizedBox(
+                                    height: 10,
+                                  ),
+                                  CustomButton(text: "Submit", onTap: ()=>setter('accepted'))
+                                ],
+
+                              ),
+
+                            );
+                          });
+                    },
                     child: Container(
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(15),color: Colors.green
@@ -83,7 +119,7 @@ class _DisplayOfferState extends State<DisplayOffer> {
                     ),
                   ),
                   GestureDetector(
-                    onTap: ()=>setter("rejected"),
+                    onTap: ()=>setter("rejected" ),
                     child: Container(
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(15),color: Colors.red
@@ -98,6 +134,7 @@ class _DisplayOfferState extends State<DisplayOffer> {
                   )
                 ],
               ),
+            if(!widget.is_recruiter && !widget.offer.is_new) Center(child: Text("YOU HAVE "+widget.offer.status.toString().toUpperCase()+" THE OFFER")),
           ],
         ),
       ),
