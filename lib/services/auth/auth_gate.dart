@@ -37,7 +37,7 @@ class _AuthGateState extends ConsumerState<AuthGate> {
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Center(
-              child: SizedBox(child: Lottie.asset("/lottie/classic.json")),
+              child:CircularProgressIndicator(),
             );
           } else if (snapshot.hasData) {
             User? user = snapshot.data;
@@ -50,9 +50,7 @@ class _AuthGateState extends ConsumerState<AuthGate> {
                 builder: (context, userSnapshot) {
                   if (userSnapshot.connectionState == ConnectionState.waiting) {
                     return Center(
-                      child: SizedBox(
-                        child: Lottie.asset("/lottie/classic.json"),
-                      ),
+                      child: CircularProgressIndicator()
                     );
                   } else if (userSnapshot.hasData) {
                     var userData = userSnapshot.data;
